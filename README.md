@@ -1,8 +1,8 @@
 # Access data inside Docker via rsync
 
-When running dockerized applications, it can be cumbersome to access their data from outside of Docker. Especially when using Kubernetes, accessing data stored in volumes can be hard to impossible from your local host.
+When running dockerized applications, it can be cumbersome to access their data from outside of Docker. Especially when using Kubernetes, accessing data stored in volumes directly can be hard to impossible from your local host.
 
-This image helps you need to create, update, retrieve, or delete data that's stored inside volume, using [rsync](https://rsync.samba.org).
+This image helps you create, update, retrieve, or delete data that's stored inside a volume, using [rsync](https://rsync.samba.org).
 
 Containers and pods can be configured to have access to volumes. This image starts up rsync in such a way that you can use `docker run` or `kubectl run` to connect from your local machine to a container and use rsync to move data between your machine and the (possibly remote) Docker or k8s cluster.
 
@@ -12,10 +12,10 @@ It uses rsyncs option to supply a command that is used when connecting to a remo
 
 ### List contents of Docker volume
 
-This command lists the contents of the Docker volume "my-data-volume". Note that the hostname `foo` is ignored by the image, but it needed to make rsync try and connect to the remote host using the command supplied.
+This command lists the contents of the Docker volume "my-data-volume". Note that the hostname `foo` is ignored by the image, but is needed to make rsync try and connect to the remote host using the command supplied.
 
 ```sh
-rsync --rsh="docker run -i --rm -v my-data-volume:/data rsync" --list-only foo:
+rsync --rsh="docker run -i --rm -v my-data-volume:/data stblassitude/rsync" --list-only foo:
 ```
 
 ### Copy data from a local directory to a k8s volume
@@ -48,7 +48,7 @@ spec:
 
 Note the `start` argument which will make the image sleep in an endless loop. This is required so we can run the rsync command inside the running pod.
 
-The pod attached the volume claim `test-data` under `/data`, where it will be available through rsync.
+The pod attaches the volume claim `test-data` under `/data`, where it will be available through rsync.
 
 If you need to access the volume as a specific user, add a [securityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) specification to the pod definition.
 
