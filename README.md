@@ -1,6 +1,6 @@
 # Access data inside Docker via rsync
 
-When running dockerized applications, it can be cumbersome to access their data. Especially when using Kubernetes, accessing data stored in volumes can be hard to impossible.
+When running dockerized applications, it can be cumbersome to access their data from outside of Docker. Especially when using Kubernetes, accessing data stored in volumes can be hard to impossible from your local host.
 
 This image helps you need to create, update, retrieve, or delete data that's stored inside volume, using [rsync](https://rsync.samba.org).
 
